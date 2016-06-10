@@ -1,0 +1,9 @@
+[package]
+name = "hon"
+version = "0.1.0"
+authors = ["Denis Kolodin <deniskolodin@gmail.com>"]
+
+[dependencies]
+log = "0.3.6"
+env_logger = "0.3.3"
+mould = "0.0.10"
