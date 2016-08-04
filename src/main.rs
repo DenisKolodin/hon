@@ -3,19 +3,24 @@ extern crate log;
 extern crate env_logger;
 extern crate mould;
 
-use mould::server::{ServicesMap, start};
+use mould::{Session, Builder};
+use mould::server::{Suite, start};
 
-mod session {
-    use mould::session::SessionData;
+pub struct UserSession { }
 
-    pub struct UserSessionData { }
+impl Session for UserSession { }
 
-    impl SessionData for UserSessionData { }
+struct UserBuilder { }
 
-    impl Default for UserSessionData {
-        fn default() -> Self {
-            UserSessionData { }
-        }
+impl UserBuilder {
+    fn new() -> Self {
+        UserBuilder { }
+    }
+}
+
+impl Builder<UserSession> for UserBuilder {
+    fn build(&self) -> UserSession {
+        UserSession { }
     }
 }
 
@@ -23,6 +28,7 @@ fn main() {
     env_logger::init().unwrap();
     info!("Starting hon server...");
 
-    let services: ServicesMap<session::UserSessionData> = ServicesMap::new();
-    start("localhost:44666", services);
+    let builder = UserBuilder::new();
+    let suite = Suite::new(builder);
+    start("localhost:44666", suite);
 }
