@@ -1,34 +1,30 @@
 #[macro_use]
 extern crate log;
 extern crate env_logger;
+extern crate permission;
+extern crate authorize;
 extern crate mould;
+extern crate mould_auth;
+extern crate mould_file;
+extern crate mould_nfd;
 
-use mould::{Session, Builder};
+mod session;
+
+use authorize::checkers::StringChecker;
 use mould::server::{Suite, start};
-
-pub struct UserSession { }
-
-impl Session for UserSession { }
-
-struct UserBuilder { }
-
-impl UserBuilder {
-    fn new() -> Self {
-        UserBuilder { }
-    }
-}
-
-impl Builder<UserSession> for UserBuilder {
-    fn build(&self) -> UserSession {
-        UserSession { }
-    }
-}
+use mould_auth::TokenService;
+use mould_file::FileService;
+use mould_nfd::DialogService;
 
 fn main() {
     env_logger::init().unwrap();
     info!("Starting hon server...");
 
-    let builder = UserBuilder::new();
-    let suite = Suite::new(builder);
+    let builder = session::UserBuilder::new();
+    let mut suite = Suite::new(builder);
+    let checker = StringChecker::new();
+    suite.register("token-service", TokenService::new(checker));
+    suite.register("file-service", FileService::new());
+    suite.register("dialog-service", DialogService::new());
     start("localhost:44666", suite);
 }

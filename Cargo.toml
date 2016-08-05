@@ -6,4 +6,9 @@ authors = ["Denis Kolodin <deniskolodin@gmail.com>"]
 [dependencies]
 log = "0.3.6"
 env_logger = "0.3.3"
+permission = "0.1.0"
+authorize = { path = "../authorize" }
 mould = { path = "../mould" }
+mould-auth = { path = "../mould-auth" }
+mould-file = { path = "../mould-file" }
+mould-nfd = { path = "../mould-nfd" }
