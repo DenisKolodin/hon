@@ -5,6 +5,7 @@ use mould::{Session, Builder};
 use mould_file::FileAccessPermission;
 use mould_nfd::DialogPermission;
 
+#[derive(Clone)]
 pub enum UserRole {
     Administrator,
 }
